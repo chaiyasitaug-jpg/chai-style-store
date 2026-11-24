@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHAI STYLE | เสื้อผ้าสไตล์มินิมอล</title>
+<style>
+:root{--ink:#171717;--muted:#777;--line:#e8e8e8;--paper:#fff;--soft:#f6f6f4}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Arial,"Noto Sans Thai",sans-serif;background:var(--paper)}
+header{padding:20px 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:3}
+.logo{font-weight:900;letter-spacing:3px;font-size:22px}.nav{display:flex;gap:18px;align-items:center}.nav a{color:var(--ink);text-decoration:none;font-size:14px}
+button{border:0;background:var(--ink);color:#fff;padding:12px 17px;cursor:pointer;font-weight:700}button.secondary{background:#eee;color:#111}button:disabled{opacity:.4;cursor:not-allowed}
+.hero{background:#eee;padding:64px 8%;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}.hero h1{font-size:clamp(36px,6vw,68px);line-height:1.05;margin:10px 0}.hero p{color:#555;line-height:1.8}.hero img{width:100%;height:340px;object-fit:cover}
+.wrap{padding:50px 6%}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px}.section-head h2{margin:0;font-size:28px}.muted{color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.product{border:1px solid var(--line);padding:12px}.product img{width:100%;height:340px;object-fit:cover;background:var(--soft)}.product h3{margin:12px 0 5px}.price{font-weight:800}.product small{color:var(--muted)}
+.actions{display:flex;gap:8px;margin-top:14px}.actions button{flex:1}
+#cart{background:var(--soft);padding:25px;margin-top:35px}.cart-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #ddd;padding:12px 0}.qty{display:flex;align-items:center;gap:8px}.qty button{padding:5px 10px}
+.checkout{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.checkout input,.checkout textarea{padding:12px;border:1px solid #ccc;width:100%;font:inherit}.checkout textarea{grid-column:1/-1;min-height:75px}
+footer{padding:30px 6%;background:#171717;color:#fff;font-size:13px}
+#ops{display:none;background:#fafafa;border:1px solid #ddd;padding:24px;margin-top:28px}
+.label{border:2px solid #111;padding:20px;max-width:420px;background:#fff;margin-top:15px}.label h3{margin-top:0}
+@media(max-width:700px){.hero{grid-template-columns:1fr;padding:42px 6%}.hero img{height:230px}.grid{grid-template-columns:1fr}.product img{height:320px}.checkout{grid-template-columns:1fr}.checkout textarea{grid-column:auto}.nav a{display:none}}
+@media print{header,.hero,.wrap> :not(#ops),footer{display:none!important}#ops{display:block!important;border:0}.label{break-inside:avoid}}
+</style></head>
+<body>
+<header><div class="logo">CHAI STYLE</div><nav class="nav"><a href="#shop">SHOP</a><a href="#about">ABOUT</a><button onclick="document.querySelector('#cart').scrollIntoView({behavior:'smooth'})">ตะกร้า (<span id="count">0</span>)</button></nav></header>
+<section class="hero"><div><div class="muted">EVERYDAY ESSENTIALS · DROP 01</div><h1>LESS IS<br>MORE.</h1><p>เสื้อยืดทรง Oversize เรียบง่าย ใส่สบาย แมตช์ได้ทุกวัน<br>คัดสรรไอเทมพื้นฐานสำหรับทุกสไตล์</p><a href="#shop"><button>เลือกซื้อสินค้า</button></a></div><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1100&q=85" alt="เสื้อยืดสไตล์มินิมอล"></section>
+<main class="wrap"><section id="shop"><div class="section-head"><div><div class="muted">OUR COLLECTION</div><h2>สินค้าแนะนำ</h2></div><div class="muted" id="status">กำลังโหลดสินค้า...</div></div><div class="grid" id="products"></div></section>
+<section id="cart"><h2>ตะกร้าสินค้า</h2><div id="cart-items">ยังไม่มีสินค้าในตะกร้า</div><h3>ยอดรวม: <span id="total">฿0</span></h3>
+<div class="checkout"><input id="customer" placeholder="ชื่อ-นามสกุลผู้รับ"><input id="phone" placeholder="เบอร์โทรศัพท์"><textarea id="address" placeholder="ที่อยู่จัดส่ง"></textarea></div><p><button onclick="placeOrder()">ยืนยันคำสั่งซื้อ / สร้างรายการแพ็ก</button></p><div id="ops"><h2>รายการแพ็กสินค้าและใบปะหน้าพัสดุ</h2><div id="packing"></div><div class="label" id="shipping-label"></div><p><button onclick="window.print()">พิมพ์ใบปะหน้า / รายการแพ็ก</button></p></div></section>
+<section id="about" style="padding-top:35px"><h2>ABOUT CHAI STYLE</h2><p class="muted">ร้านเสื้อผ้าออนไลน์สไตล์มินิมอล เน้นความเรียบง่ายและใช้งานได้ทุกวัน</p></section></main>
+<footer>CHAI STYLE · ONLINE CLOTHING STORE · ขอบคุณที่สนับสนุนร้านของเรา</footer>
+<script src="config.js"></script><script>
+const fallback=[
+{sku:"CS001",name:"Oversize T-Shirt Black",variant:"สีดำ / Free Size",price:290,stock:25,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85",description:"เสื้อยืดโอเวอร์ไซซ์สีดำ ผ้านุ่ม ใส่สบาย"},
+{sku:"CS002",name:"Oversize T-Shirt White",variant:"สีขาว / Free Size",price:290,stock:30,image:"https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=900&q=85",description:"เสื้อยืดโอเวอร์ไซซ์สีขาว เรียบง่าย แมตช์ง่าย"}
+];
+let products=[...fallback],cart={};
+const money=n=>"฿"+Number(n).toLocaleString("th-TH");
+async function loadProducts(){const url=window.STORE_CONFIG?.SHEET_CSV_URL;if(url){try{const t=await(await fetch(url)).text();const rows=parseCSV(t);if(rows.length>1){const h=rows[0].map(x=>x.trim().toLowerCase());products=rows.slice(1).filter(r=>r.length>=6).map(r=>({sku:r[h.indexOf("sku")],name:r[h.indexOf("name")],variant:r[h.indexOf("variant")],price:Number(r[h.indexOf("price")]),stock:Number(r[h.indexOf("stock")]),image:r[h.indexOf("image")],description:r[h.indexOf("description")]||""})).filter(p=>p.sku&&p.name)}}catch(e){console.warn("ใช้ข้อมูลตัวอย่างแทน",e)}}renderProducts();document.querySelector("#status").textContent=`${products.length} รายการสินค้า`}
+function parseCSV(s){return s.trim().split(/\r?\n/).map(line=>{let out=[],v="",q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'&&line[i+1]==='"'){v+='"';i++}else if(c==='"')q=!q;else if(c===","&&!q){out.push(v);v=""}else v+=c}out.push(v);return out})}
+function renderProducts(){document.querySelector("#products").innerHTML=products.map(p=>`<article class="product"><img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/800x800?text=CHAI+STYLE'"><div class="muted">${p.sku} · ${p.variant}</div><h3>${p.name}</h3><div>${p.description||""}</div><p class="price">${money(p.price)}</p><small>คงเหลือ ${p.stock} ชิ้น</small><div class="actions"><button onclick="add('${p.sku}')">เพิ่มลงตะกร้า</button></div></article>`).join("")}
+function add(sku){const p=products.find(x=>x.sku===sku);if(!p||((cart[sku]||0)>=p.stock))return alert("สินค้าไม่เพียงพอ");cart[sku]=(cart[sku]||0)+1;renderCart()}
+function change(sku,d){cart[sku]+=d;if(cart[sku]<=0)delete cart[sku];renderCart()}
+function renderCart(){let keys=Object.keys(cart);document.querySelector("#count").textContent=keys.reduce((a,k)=>a+cart[k],0);document.querySelector("#cart-items").innerHTML=keys.length?keys.map(k=>{let p=products.find(x=>x.sku===k);return `<div class="cart-row"><div>${p.name}<br><small>${money(p.price)} × ${cart[k]}</small></div><div class="qty"><button class="secondary" onclick="change('${k}',-1)">−</button>${cart[k]}<button class="secondary" onclick="change('${k}',1)">+</button></div></div>`}).join(""):"ยังไม่มีสินค้าในตะกร้า";document.querySelector("#total").textContent=money(keys.reduce((a,k)=>a+products.find(p=>p.sku===k).price*cart[k],0))}
+function placeOrder(){if(!Object.keys(cart).length)return alert("กรุณาเลือกสินค้าก่อน");let name=document.querySelector("#customer").value.trim(),phone=document.querySelector("#phone").value.trim(),address=document.querySelector("#address").value.trim();if(!name||!phone||!address)return alert("กรุณากรอกชื่อ เบอร์โทร และที่อยู่ให้ครบ");let order="CS"+Date.now().toString().slice(-8),items=Object.keys(cart).map(k=>({p:products.find(x=>x.sku===k),q:cart[k]}));document.querySelector("#packing").innerHTML=`<b>เลขคำสั่งซื้อ:</b> ${order}<br><b>ผู้แพ็ก:</b> __________________<br><br>`+items.map(x=>`☐ ${x.p.sku} — ${x.p.name} (${x.p.variant}) × ${x.q} ชิ้น`).join("<br>")+`<br><br><b>รวม ${money(items.reduce((a,x)=>a+x.p.price*x.q,0))}</b>`;document.querySelector("#shipping-label").innerHTML=`<h3>CHAI STYLE · SHIPPING LABEL</h3><b>เลขพัสดุ/คำสั่งซื้อ:</b> ${order}<hr><b>ผู้รับ:</b> ${escapeHTML(name)}<br><b>โทร:</b> ${escapeHTML(phone)}<br><b>ที่อยู่:</b><br>${escapeHTML(address).replace(/\n/g,"<br>")}<hr><b>จำนวน:</b> ${items.reduce((a,x)=>a+x.q,0)} ชิ้น<br><b>ยอดรวม:</b> ${money(items.reduce((a,x)=>a+x.p.price*x.q,0))}`;document.querySelector("#ops").style.display="block";document.querySelector("#ops").scrollIntoView({behavior:"smooth"});cart={};renderCart()}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+loadProducts();renderCart();
+</script></body></html>
